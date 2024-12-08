@@ -36,7 +36,7 @@ def didCollide(playerx, playery, upperPipes, lowerPipes, badBirds):
 
 def getRandomPipe():
     offset = sheight/8 - 80
-    y2 = random.randrange(int(sheight/2) - 100, int(basey - 50))
+    y2 = random.randrange(int(sheight/2) - 100, int(basey - 100))
     pipex = swidth+random.randrange(90, 200)
     y1 = y2 - sheight + offset
     pipe = [
@@ -234,7 +234,7 @@ def mainGame():
         if currTime - lastBird > birdFreq:
             badBirds.append(getRandomBird())
             lastBird = currTime
-            birdFreq = random.randrange(800, 2000)
+            birdFreq = random.randrange(900, 2200)
 
         if shoot:
             if shurikenx > swidth + 400 or shurikeny >= basey:
@@ -279,13 +279,13 @@ def mainGame():
             pass
 
         screen.blit(sprites['bg'], (0, 0))
+        for upperPipe, lowerPipe in zip(upperPipes, lowerPipes):
+            screen.blit(sprites['pipe'][0], (upperPipe['x'], upperPipe['y']))
+            screen.blit(sprites['pipe'][1], (lowerPipe['x'], lowerPipe['y']))
         for bird in badBirds:
             screen.blit(sprites['badbird'], (bird['x'], bird['y']))
             if bird['y'] > basey - 100:
                 badBirds.remove(bird)
-        for upperPipe, lowerPipe in zip(upperPipes, lowerPipes):
-            screen.blit(sprites['pipe'][0], (upperPipe['x'], upperPipe['y']))
-            screen.blit(sprites['pipe'][1], (lowerPipe['x'], lowerPipe['y']))
         basex += pipeVelX
         if basex < -baseResetScroll:
             basex = 0
